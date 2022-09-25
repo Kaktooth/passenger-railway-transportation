@@ -1,0 +1,5 @@
+CREATE TABLE trains
+(
+    id   UUID PRIMARY KEY,
+    name VARCHAR NOT NULL
+);
