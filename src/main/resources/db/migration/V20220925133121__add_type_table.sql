@@ -1,5 +1,5 @@
 CREATE TABLE wagon_types
 (
-    id   SERIAL PRIMARY KEY,
+    id   UUID PRIMARY KEY,
     type VARCHAR NOT NULL
 );
