@@ -1,5 +1,6 @@
 package com.team.passengerrailwaytransportation.entities;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -21,12 +22,15 @@ public class Transportation extends Domain {
   UUID trainId;
   UUID firstStationId;
   UUID secondStationId;
+  Timestamp arrivalTime;
 
   @Builder
-  public Transportation(UUID id, UUID trainId, UUID firstStationId, UUID secondStationId) {
+  public Transportation(UUID id, UUID trainId, UUID firstStationId,
+      UUID secondStationId, Timestamp arrivalTime) {
     super(id);
     this.trainId = trainId;
     this.firstStationId = firstStationId;
     this.secondStationId = secondStationId;
+    this.arrivalTime = arrivalTime;
   }
 }

@@ -15,17 +15,17 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "buying_history")
+@Table(name = "stations")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Station extends Domain {
 
-  UUID ticketId;
-  Timestamp date;
+  String name;
+  String location;
 
   @Builder
-  public Station(UUID id, UUID ticketId, Timestamp date) {
+  public Station(UUID id, String name, Timestamp date) {
     super(id);
-    this.ticketId = ticketId;
-    this.date = date;
+    this.name = name;
+    this.location = location;
   }
 }
