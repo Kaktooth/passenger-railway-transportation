@@ -1,6 +1,5 @@
 package com.team.passengerrailwaytransportation.entities;
 
-import java.security.Timestamp;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,17 +14,17 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "buying_history")
+@Table(name = "stations")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Station extends Domain {
-
-  UUID ticketId;
-  Timestamp date;
+public class Purchase extends Domain {
+  String name;
+  String location;
 
   @Builder
-  public Station(UUID id, UUID ticketId, Timestamp date) {
+  public Purchase(UUID id, String name, String location) {
     super(id);
-    this.ticketId = ticketId;
-    this.date = date;
+    this.name = name;
+    this.location = location;
   }
 }
+
