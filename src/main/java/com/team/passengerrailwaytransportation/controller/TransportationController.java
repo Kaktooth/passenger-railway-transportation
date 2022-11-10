@@ -63,8 +63,8 @@ public class TransportationController {
     return wagonService.getWagonsByTrain(transportation.getTrain().getId());
   }
 
-  @GetMapping("/routes/{id}/train/wagons-types")
-  public List<Wagon> getWagonsTypes(@PathVariable UUID id,
+  @GetMapping("/routes/{id}/train/wagons-types/{wagonTypeId}")
+  public List<Wagon> getWagonsType(@PathVariable UUID id,
       @PathVariable UUID wagonTypeId) {
     TransportationDTO transportation = transportationService.getTransportationById(id);
     return wagonService.getWagonsByWagonTypeAndTrain(wagonTypeId,
