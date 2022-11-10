@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 public interface StationRepository extends CommonRepository<Station> {
 
   Station findStationByLocation(String location);
+
+  Station findStationByName(String stationName);
 }
 

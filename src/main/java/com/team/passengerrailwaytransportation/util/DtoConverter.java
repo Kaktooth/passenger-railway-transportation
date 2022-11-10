@@ -22,6 +22,16 @@ public class DtoConverter {
     this.stationRepository = stationRepository;
   }
 
+  public TransportationDTO convertFrom(Transportation transportation) {
+    return TransportationDTO
+        .builder()
+        .train(trainRepository.findById(transportation.getTrainId()).get())
+        .firstStation(stationRepository.findById(transportation.getFirstStationId()).get())
+        .secondStation(stationRepository.findById(transportation.getSecondStationId()).get())
+        .arrivalTime(transportation.getArrivalTime())
+        .build();
+  }
+
   public List<TransportationDTO> convertFrom(List<Transportation> transportationList) {
     List<TransportationDTO> dtoList = new ArrayList<>();
     for (var transportation : transportationList) {

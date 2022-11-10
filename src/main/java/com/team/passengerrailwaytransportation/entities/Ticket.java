@@ -23,15 +23,4 @@ public class Ticket extends Domain {
   Integer placeNumber;
   UUID transportationId;
   BigInteger price;
-
-  @Builder
-  public Ticket(UUID id,
-      UUID wagonId, Integer placeNumber,
-      UUID transportationId, BigInteger price) {
-    super(id);
-    this.wagonId = wagonId;
-    this.placeNumber = placeNumber;
-    this.transportationId = transportationId;
-    this.price = price;
-  }
 }

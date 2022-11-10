@@ -17,4 +17,5 @@ import lombok.experimental.FieldDefaults;
 public class WagonType extends Domain {
 
   String type;
+  Integer seatNumber;
 }

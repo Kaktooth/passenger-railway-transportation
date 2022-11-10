@@ -19,12 +19,5 @@ import lombok.experimental.FieldDefaults;
 public class Purchase extends Domain {
   String name;
   String location;
-
-  @Builder
-  public Purchase(UUID id, String name, String location) {
-    super(id);
-    this.name = name;
-    this.location = location;
-  }
 }
 
