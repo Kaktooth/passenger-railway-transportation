@@ -9,6 +9,7 @@ class PassengerRailwayTransportationApplicationTests {
 
   @Test
   void contextLoads() {
+
   }
 
 }
