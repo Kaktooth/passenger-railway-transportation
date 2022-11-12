@@ -18,5 +18,6 @@ import lombok.experimental.FieldDefaults;
 public class Wagon extends Domain {
 
   UUID typeId;
+
   UUID trainId;
 }
