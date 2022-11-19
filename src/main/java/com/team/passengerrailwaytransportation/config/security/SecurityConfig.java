@@ -52,7 +52,7 @@ public class SecurityConfig {
         .httpBasic().disable()
         .csrf().disable()
         .authorizeRequests()
-        .mvcMatchers("/api/**", Web.loginPath)
+        .mvcMatchers("/api/**", "/swagger-ui/**", Web.loginPath)
         .permitAll()
         .anyRequest().authenticated()
         .and()
