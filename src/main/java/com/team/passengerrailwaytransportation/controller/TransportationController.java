@@ -37,6 +37,11 @@ public class TransportationController {
     return wagonTypeService.getAllWagonTypes();
   }
 
+  @GetMapping("/stations")
+  public List<Station> getAllStations() {
+    return stationService.findAll();
+  }
+
   @GetMapping("/routes/{cityName}")
   public List<TransportationDTO> getTransportationByCityName(@PathVariable String cityName) {
     Station station = stationService.findStationByLocation(cityName);
@@ -67,4 +72,6 @@ public class TransportationController {
     return wagonService.getWagonsByWagonTypeAndTrain(wagonTypeId,
         transportation.getTrain().getId());
   }
+
+
 }
