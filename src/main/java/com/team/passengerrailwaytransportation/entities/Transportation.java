@@ -2,7 +2,12 @@ package com.team.passengerrailwaytransportation.entities;
 
 import java.sql.Timestamp;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,11 +23,14 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Transportation extends Domain {
 
-  UUID trainId;
+  @OneToOne
+  Train train;
 
-  UUID firstStationId;
+  @OneToOne
+  Station firstStation;
 
-  UUID secondStationId;
+  @OneToOne
+  Station secondStation;
 
   Timestamp arrivalTime;
 }
