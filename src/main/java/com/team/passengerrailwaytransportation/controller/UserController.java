@@ -1,28 +1,66 @@
 package com.team.passengerrailwaytransportation.controller;
 
-import com.team.passengerrailwaytransportation.entities.User;
-import com.team.passengerrailwaytransportation.repository.UserRepository;
+import com.team.passengerrailwaytransportation.config.security.jwt.JwtTokenProviderImpl;
+import com.team.passengerrailwaytransportation.entities.AuthenticationUserDto;
+import com.team.passengerrailwaytransportation.entities.Role;
+import com.team.passengerrailwaytransportation.service.UserService;
+import com.team.passengerrailwaytransportation.utility.AppConstraints;
+import java.util.Map;
+import java.util.Set;
+import javax.naming.AuthenticationException;
 import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
-@RequestMapping("/user")
+@RequiredArgsConstructor
+@RequestMapping("/api/user")
 public class UserController {
+  @NonNull
+  private final AuthenticationManager authenticationManager;
 
-  private final UserRepository repository;
+  @NonNull
+  private final JwtTokenProviderImpl jwtTokenProviderImpl;
 
-  public UserController(UserRepository repository) {
-    this.repository = repository;
-  }
+  @NonNull
+  private final UserService userService;
 
-  @PostMapping
-  public ResponseEntity<User> create(@Valid @RequestBody User resource) {
-    User result = repository.save(resource);
-    return new ResponseEntity<>(result, HttpStatus.CREATED);
+  @PostMapping("/login")
+  public ResponseEntity<Map<Object, Object>> create(
+      @Valid @RequestBody @NonNull AuthenticationUserDto request) {
+    final var email = request.getEmail();
+    final var password = request.getPassword();
+
+      var auth = authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(email, password));
+      log.info(auth.toString());
+      final var user = userService.getUserByEmail(email);
+
+      if (user == null) {
+        throw new UsernameNotFoundException(
+            String.format("User with email: %s not found", email));
+      }
+
+
+      final var token = AppConstraints.Web.Security.tokenPrefix
+          + jwtTokenProviderImpl.createToken(email, Set.of(user.getRole(), Role.USER));
+
+      final Map<Object, Object> response = Map.of("email", email, "token", token);
+
+      return new ResponseEntity<>(response, HttpStatus.CREATED);
+
   }
 }
