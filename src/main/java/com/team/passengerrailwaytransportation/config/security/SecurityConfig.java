@@ -3,11 +3,15 @@ package com.team.passengerrailwaytransportation.config.security;
 import com.team.passengerrailwaytransportation.config.security.handler.FilterChainExceptionHandler;
 import com.team.passengerrailwaytransportation.config.security.jwt.JwtConfigurer;
 import com.team.passengerrailwaytransportation.config.security.jwt.JwtTokenProviderImpl;
-import com.team.passengerrailwaytransportation.utility.AppConstraints;
 import com.team.passengerrailwaytransportation.utility.AppConstraints.Web;
-import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +22,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableMethodSecurity
@@ -59,5 +61,32 @@ public class SecurityConfig {
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     return http.build();
+  }
+
+  @Bean
+  public ServletWebServerFactory servletContainer() {
+    TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+      @Override
+      protected void postProcessContext(Context context) {
+        var securityConstraint = new SecurityConstraint();
+        securityConstraint.setUserConstraint("CONFIDENTIAL");
+        var collection = new SecurityCollection();
+        collection.addPattern("/*");
+        securityConstraint.addCollection(collection);
+        context.addConstraint(securityConstraint);
+      }
+
+    };
+    tomcat.addAdditionalTomcatConnectors(getHttpConnector());
+    return tomcat;
+  }
+
+  private Connector getHttpConnector() {
+    var connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+    connector.setScheme("http");
+    connector.setPort(8082);
+    connector.setSecure(false);
+    connector.setRedirectPort(8443);
+    return connector;
   }
 }
