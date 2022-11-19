@@ -7,9 +7,7 @@ import com.team.passengerrailwaytransportation.service.UserService;
 import com.team.passengerrailwaytransportation.utility.AppConstraints;
 import java.util.Map;
 import java.util.Set;
-import javax.naming.AuthenticationException;
 import javax.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
+
   @NonNull
   private final AuthenticationManager authenticationManager;
 
@@ -44,16 +44,18 @@ public class UserController {
     final var email = request.getEmail();
     final var password = request.getPassword();
 
+    try {
       var auth = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(email, password));
-      log.info(auth.toString());
+
+      log.info("auth" + auth.toString());
+
       final var user = userService.getUserByEmail(email);
 
       if (user == null) {
         throw new UsernameNotFoundException(
             String.format("User with email: %s not found", email));
       }
-
 
       final var token = AppConstraints.Web.Security.tokenPrefix
           + jwtTokenProviderImpl.createToken(email, Set.of(user.getRole(), Role.USER));
@@ -62,5 +64,9 @@ public class UserController {
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
 
+    } catch (AuthenticationException e) {
+      log.info("bad");
+      throw new BadCredentialsException("Invalid username or password");
+    }
   }
 }
