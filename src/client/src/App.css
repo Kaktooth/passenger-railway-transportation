@@ -1,0 +1,13 @@
+.app {
+	display: flex;
+}
+
+.sidebar {
+	width: 10%;
+	height: 100vh;
+	border-right: 1px solid #000;
+}
+
+.content {
+	width: 90%;
+}
