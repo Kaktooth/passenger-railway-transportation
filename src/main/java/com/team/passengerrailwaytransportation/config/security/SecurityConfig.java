@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -48,6 +49,14 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(@NonNull HttpSecurity http) throws Exception {
+    http.authorizeRequests().mvcMatchers("/resources/**",
+            "/configuration/ui",
+            "/v2/api-docs",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**").permitAll();
+
     http
         .httpBasic().disable()
         .csrf().disable()
