@@ -76,22 +76,4 @@ public class AppExceptionHandler {
         .build();
     return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
   }
-
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorMessage> handleAllExceptions(
-      @NonNull final Exception exception,
-      @NonNull final HttpServletRequest request) {
-
-    final var responseStatus =
-        exception.getClass().getAnnotation(ResponseStatus.class);
-    final var status =
-        responseStatus != null ? responseStatus.value() : HttpStatus.INTERNAL_SERVER_ERROR;
-    final var message = ErrorMessage.builder()
-        .status(status.value())
-        .date(new Date())
-        .description(internalServerErrorMessage)
-        .url(request.getRequestURL().toString())
-        .build();
-    return new ResponseEntity<>(message, status);
-  }
 }
