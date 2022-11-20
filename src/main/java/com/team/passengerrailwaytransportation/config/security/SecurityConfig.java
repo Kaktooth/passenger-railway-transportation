@@ -6,27 +6,21 @@ import com.team.passengerrailwaytransportation.config.security.jwt.JwtTokenProvi
 import com.team.passengerrailwaytransportation.utility.AppConstraints.Web;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
   @NonNull
@@ -34,11 +28,6 @@ public class SecurityConfig {
 
   @NonNull
   private final FilterChainExceptionHandler filterChainExceptionHandler;
-
-  @Bean
-  public BCryptPasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
 
   @Bean
   public AuthenticationManager authenticationManager(
@@ -50,12 +39,12 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(@NonNull HttpSecurity http) throws Exception {
     http.authorizeRequests().mvcMatchers("/resources/**",
-            "/configuration/ui",
-            "/v2/api-docs",
-            "/swagger-resources/**",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**").permitAll();
+        "/configuration/ui",
+        "/v2/api-docs",
+        "/swagger-resources/**",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**").permitAll();
 
     http
         .httpBasic().disable()
@@ -71,4 +60,5 @@ public class SecurityConfig {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     return http.build();
   }
+
 }

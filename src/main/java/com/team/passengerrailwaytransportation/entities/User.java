@@ -16,8 +16,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Formula;
@@ -25,7 +27,9 @@ import org.hibernate.annotations.Formula;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "users")
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends Domain {
 
