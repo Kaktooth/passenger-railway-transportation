@@ -23,9 +23,9 @@ public class TrainService extends AbstractService<Train, TrainRepository> {
     return repository.getPurchasedSeatsByTrainId(id);
   }
 
-  public Integer getAvailableSeatsByTrainId(UUID id) {
-    return repository.getPurchasedSeatsByTrainId(id)
-        - repository.getAvailableSeatsByTrainId(id);
+  public Integer getAvailableSeatsWithTrainId(UUID id) {
+    return repository.getSeatsNumberByTrainId(id)
+        - repository.getPurchasedSeatsByTrainId(id);
   }
 
   public List<Integer> getAllPurchasedSeatsByTransportationId(UUID id){

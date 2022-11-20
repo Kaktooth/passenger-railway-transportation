@@ -18,9 +18,6 @@ public interface TrainRepository extends CommonRepository<Train> {
   @Query(value = "SELECT count(t) FROM tickets t  JOIN trains tr on t.transportation_id = t.transportation_id WHERE tr.id = ?1", nativeQuery = true)
   Integer getPurchasedSeatsByTrainId(UUID id);
 
-
-  Integer getAvailableSeatsByTrainId(UUID id);
-
   @Query(value = "SELECT t.place_number FROM tickets t WHERE t.transportation_id = ?1", nativeQuery = true)
   List<Integer> getAllPurchasedSeatsByTransportationId(UUID id);
 }

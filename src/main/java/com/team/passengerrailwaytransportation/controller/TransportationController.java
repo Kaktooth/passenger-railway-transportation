@@ -73,7 +73,7 @@ public class TransportationController {
   @GetMapping("/routes/{id}/train/getAvailableSeats")
   Integer getAvailableSeatsByTrainId(UUID id) {
     TransportationDTO transportation = transportationService.getById(id);
-    return trainService.getAvailableSeatsByTrainId(transportation.getTrain().getId());
+    return trainService.getAvailableSeatsWithTrainId(transportation.getTrain().getId());
   }
 
   @GetMapping("/routes/{id}/train/getAllPurchasedSeats")
