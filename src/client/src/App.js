@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
-import "./App.css";
+import Header from "./components/Header/Header";
 
-import Sidebar from "./components/Sidebar/Sidebar";
 import Empty from "./pages/Empty/Empty";
 import Stations from "./pages/Stations/Stations";
 import Transportation from "./pages/Transportation/Transportation";
@@ -22,7 +21,7 @@ function App() {
 		const walkTree = element => {
 			const { children, path } = element.props;
 			if (children && children.length > 0) children.forEach(walkTree);
-			else if (path && typeof path === "string" && path !== "*") paths.push(element.props.path);
+			else if (path && typeof path === "string" && path !== "*" && path !== "/logout") paths.push(element.props.path);
 		};
 
 		walkTree(routes);
@@ -30,12 +29,10 @@ function App() {
 	};
 
 	return (
-		<div className="app">
-			<div className="sidebar">
-				<Sidebar routes={getRoutes(routes)} />
-			</div>
-			<div className="content">{routes}</div>
-		</div>
+		<>
+			<Header routes={getRoutes(routes)} />
+			{routes}
+		</>
 	);
 }
 

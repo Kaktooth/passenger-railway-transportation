@@ -17,7 +17,7 @@ function Transportation() {
 				const transportation = await getTransportationByCityName("Cherkasy");
 				if (transportation) {
 					transportation.forEach(async i => {
-						const res = await getTransportationTrainSeatsNumber(i.train.id);
+						const res = await getTransportationTrainSeatsNumber(i.id);
 						seatsNumbers.push(res);
 					});
 				}
@@ -36,7 +36,7 @@ function Transportation() {
 
 	const renderTableHead = () => {
 		return (
-			<TableHead>
+			<TableHead className={styles.table_header}>
 				<TableRow>{["Arrival time", "Sending station", "Arrival station", "Train number", "Seats number"].map(renderTableCell)}</TableRow>
 			</TableHead>
 		);

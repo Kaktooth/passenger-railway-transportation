@@ -25,7 +25,7 @@ function Stations() {
 
 	const renderTableHead = () => {
 		return (
-			<TableHead>
+			<TableHead className={styles.table_header}>
 				<TableRow>{["Name", "Location"].map(renderTableCell)}</TableRow>
 			</TableHead>
 		);

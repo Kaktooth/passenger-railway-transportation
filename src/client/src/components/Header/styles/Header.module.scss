@@ -1,7 +1,7 @@
-.logo {
-	height: 160px;
-	margin-top: 20px;
-	margin-bottom: 30px;
+.toolbar {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 50px;
 }
 
 .link {
@@ -13,15 +13,14 @@
 
 	& button {
 		font-weight: bold !important;
-		background-color: rgba(25, 118, 210, 0.04);
 	}
 }
 
 .button {
-	width: 100%;
-	height: 60px;
+	width: 150px;
+	height: 70px;
 
-	color: #00cfcf;
+	color: #0026ff;
 	font-size: 18px;
 	text-transform: capitalize !important;
 }

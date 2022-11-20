@@ -1,0 +1,24 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.activeLink {
+  text-decoration: none;
+}
+.activeLink button {
+  font-weight: bold !important;
+}
+
+.button {
+  width: 150px;
+  height: 70px;
+  color: #0026ff;
+  font-size: 18px;
+  text-transform: capitalize !important;
+}/*# sourceMappingURL=Header.module.css.map */
