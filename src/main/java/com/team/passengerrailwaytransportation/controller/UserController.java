@@ -78,7 +78,7 @@ public class UserController {
       log.info("auth" + auth.toString());
 
       final var user = userService.getUserByEmail(email);
-
+log.info(user.toString());
       if (user == null) {
         throw new UsernameNotFoundException(
             String.format("User with email: %s not found", email));

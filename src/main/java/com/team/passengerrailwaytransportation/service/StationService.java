@@ -2,6 +2,7 @@ package com.team.passengerrailwaytransportation.service;
 
 import com.team.passengerrailwaytransportation.entities.Station;
 import com.team.passengerrailwaytransportation.repository.StationRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,5 +20,9 @@ public class StationService extends AbstractService<Station, StationRepository> 
 
   public Station findStationByName(String stationName) {
     return repository.findStationByName(stationName);
+  }
+
+  public List<String> findAllStationLocations() {
+    return repository.findAllStationLocations();
   }
 }

@@ -50,7 +50,7 @@ public class User extends Domain {
   @NotEmpty(message = "Patronymic should not be empty")
   String patronymic;
 
-  @Formula(" ( SELECT ua.authorities FROM users JOIN public.authorities on users.id = authorities.user_id JOIN user_authorities ua on authorities.authority_id = ua.id) ")
+  @Formula(" ( SELECT ua.authorities FROM users JOIN public.authorities on users.id = authorities.user_id JOIN user_authorities ua on authorities.authority_id = ua.id WHERE users.id = authorities.user_id ) ")
   @Enumerated(EnumType.STRING)
   Role role;
 
