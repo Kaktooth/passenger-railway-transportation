@@ -84,6 +84,7 @@ public class AppExceptionHandler {
       @NonNull final Exception exception,
       @NonNull final HttpServletRequest request) {
     log.info("Internal error: " + exception.getMessage());
+    exception.printStackTrace();
     final var responseStatus =
         exception.getClass().getAnnotation(ResponseStatus.class);
     final var status =
