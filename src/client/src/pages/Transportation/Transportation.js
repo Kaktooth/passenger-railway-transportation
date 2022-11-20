@@ -1,18 +1,29 @@
 import * as React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
-import { getTransportationByCityName } from "../../services/transportation";
+import { getTransportationByCityName, getTransportationTrainSeatsNumber } from "../../services/transportation";
 
 import styles from "./styles/Transportation.module.css";
 
 function Transportation() {
 	const [transportation, setTransportation] = React.useState([]);
+	const [trainSeatsNumbers, setTrainSeatsNumbers] = React.useState([]);
 
 	React.useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await getTransportationByCityName("Cherkasy");
-				setTransportation(res);
+				const seatsNumbers = [];
+
+				const transportation = await getTransportationByCityName("Cherkasy");
+				if (transportation) {
+					transportation.forEach(async i => {
+						const res = await getTransportationTrainSeatsNumber(i.train.id);
+						seatsNumbers.push(res);
+					});
+				}
+
+				setTransportation(transportation);
+				setTrainSeatsNumbers(seatsNumbers);
 			} catch (err) {
 				console.log(err);
 			}
@@ -26,7 +37,7 @@ function Transportation() {
 	const renderTableHead = () => {
 		return (
 			<TableHead>
-				<TableRow>{["Arrival time", "Sending station", "Arrival station", "Train number"].map(renderTableCell)}</TableRow>
+				<TableRow>{["Arrival time", "Sending station", "Arrival station", "Train number", "Seats number"].map(renderTableCell)}</TableRow>
 			</TableHead>
 		);
 	};
@@ -34,13 +45,17 @@ function Transportation() {
 	const renderTableBody = () => {
 		return (
 			<TableBody>
-				{transportation.map(({ train, arrivalTime, firstStation, secondStation }) => {
+				{transportation.map(({ train, arrivalTime, firstStation, secondStation }, index) => {
 					const time = new Date(arrivalTime).toLocaleString("uk-UA");
 					const fStation = firstStation.name;
 					const sStation = secondStation.name;
 					const trainName = train.name;
 
-					return <TableRow key={train.id + arrivalTime}>{[time, fStation, sStation, trainName].map(renderTableCell)}</TableRow>;
+					return (
+						<TableRow key={train.id + arrivalTime}>
+							{[time, fStation, sStation, trainName, trainSeatsNumbers[index] || 0].map(renderTableCell)}
+						</TableRow>
+					);
 				})}
 			</TableBody>
 		);
