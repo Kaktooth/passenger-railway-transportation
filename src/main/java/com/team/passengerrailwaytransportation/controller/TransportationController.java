@@ -65,19 +65,19 @@ public class TransportationController {
   }
 
   @GetMapping("/routes/{id}/train/getPurchasedSeats")
-  Integer getPurchasedSeatsByTrainId(UUID id) {
+  Integer getPurchasedSeatsByTrainId(@PathVariable UUID id) {
     TransportationDTO transportation = transportationService.getById(id);
     return trainService.getPurchasedSeatsByTrainId(transportation.getTrain().getId());
   }
 
   @GetMapping("/routes/{id}/train/getAvailableSeats")
-  Integer getAvailableSeatsByTrainId(UUID id) {
+  Integer getAvailableSeatsByTrainId(@PathVariable UUID id) {
     TransportationDTO transportation = transportationService.getById(id);
     return trainService.getAvailableSeatsWithTrainId(transportation.getTrain().getId());
   }
 
   @GetMapping("/routes/{id}/train/getAllPurchasedSeats")
-  List<Integer> getAllPurchasedSeatsByTransportationId(UUID id) {
+  List<Integer> getAllPurchasedSeatsByTransportationId(@PathVariable UUID id) {
     return trainService.getAllPurchasedSeatsByTransportationId(id);
   }
 
