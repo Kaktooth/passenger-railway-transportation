@@ -61,7 +61,15 @@ public class UserController {
       return ResponseEntity.status(500)
           .body(ex.getMessage());
     }
+  }
 
+  @PostMapping("/validate")
+  public ResponseEntity<Boolean> validate(@NonNull String token) {
+    if (jwtTokenProviderImpl.validateToken(token)) {
+      return ResponseEntity.accepted().body(true);
+    } else {
+      return ResponseEntity.status(498).body(false);
+    }
   }
 
   @PostMapping("/login")
@@ -71,9 +79,8 @@ public class UserController {
     final var password = request.getPassword();
 
     try {
-      var auth = authenticationManager.authenticate(
+      authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(email, password));
-
 
       final var user = userService.getUserByEmail(email);
 

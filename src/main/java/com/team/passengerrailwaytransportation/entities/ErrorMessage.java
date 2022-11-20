@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ErrorMessage {
+
   int status;
   Date date;
   String description;

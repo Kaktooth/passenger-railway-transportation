@@ -43,7 +43,7 @@ public class TransportationController {
   }
 
   @GetMapping("/stations/locations")
-  public List<String> getAllStationLocations(){
+  public List<String> getAllStationLocations() {
     return stationService.findAllStationLocations();
   }
 
@@ -62,6 +62,23 @@ public class TransportationController {
   public Integer getTransportationTrainSeatsNumber(@PathVariable UUID id) {
     TransportationDTO transportation = transportationService.getById(id);
     return trainService.getSeatsNumberByTrainId(transportation.getTrain().getId());
+  }
+
+  @GetMapping("/routes/{id}/train/getPurchasedSeats")
+  Integer getPurchasedSeatsByTrainId(UUID id) {
+    TransportationDTO transportation = transportationService.getById(id);
+    return trainService.getPurchasedSeatsByTrainId(transportation.getTrain().getId());
+  }
+
+  @GetMapping("/routes/{id}/train/getAvailableSeats")
+  Integer getAvailableSeatsByTrainId(UUID id) {
+    TransportationDTO transportation = transportationService.getById(id);
+    return trainService.getAvailableSeatsByTrainId(transportation.getTrain().getId());
+  }
+
+  @GetMapping("/routes/{id}/train/getAllPurchasedSeats")
+  List<Integer> getAllPurchasedSeatsByTransportationId(UUID id) {
+    return trainService.getAllPurchasedSeatsByTransportationId(id);
   }
 
   @GetMapping("/routes/{id}/train/wagons")

@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Ticket extends Domain {
 
   UUID userId;
 
+  @Min(value = 0, message = "The value must be positive")
   Integer placeNumber;
 
   @OneToOne

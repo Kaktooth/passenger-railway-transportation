@@ -1,6 +1,7 @@
 package com.team.passengerrailwaytransportation.repository;
 
 import com.team.passengerrailwaytransportation.entities.Train;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,13 @@ public interface TrainRepository extends CommonRepository<Train> {
       nativeQuery = true)
   Integer getSeatsNumberByTrainId(UUID id);
 
+  @Query(value = "SELECT count(t) FROM tickets t  JOIN trains tr on t.transportation_id = t.transportation_id WHERE tr.id = ?1", nativeQuery = true)
+  Integer getPurchasedSeatsByTrainId(UUID id);
+
+
+  Integer getAvailableSeatsByTrainId(UUID id);
+
+  @Query(value = "SELECT t.place_number FROM tickets t WHERE t.transportation_id = ?1", nativeQuery = true)
+  List<Integer> getAllPurchasedSeatsByTransportationId(UUID id);
 }
 

@@ -1,12 +1,7 @@
 package com.team.passengerrailwaytransportation.entities;
 
 import java.sql.Timestamp;
-import java.util.UUID;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
