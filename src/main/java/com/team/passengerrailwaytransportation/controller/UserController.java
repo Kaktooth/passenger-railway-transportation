@@ -48,7 +48,6 @@ public class UserController {
   @PostMapping("/register")
   public ResponseEntity<String> register(@Valid @RequestBody @NonNull User user) {
     try {
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
       String encodedPassword = passwordEncoder.encode(user.getPassword());
       User newUser = new User(user.getEmail(), encodedPassword, user.getName(), user.getSurname(),
           user.getPatronymic(), Role.USER);
@@ -75,17 +74,16 @@ public class UserController {
       var auth = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(email, password));
 
-      log.info("auth" + auth.toString());
 
       final var user = userService.getUserByEmail(email);
-log.info(user.toString());
+
       if (user == null) {
         throw new UsernameNotFoundException(
             String.format("User with email: %s not found", email));
       }
 
       final var token = AppConstraints.Web.Security.tokenPrefix
-          + jwtTokenProviderImpl.createToken(email, Set.of(user.getRole(), Role.USER));
+          + jwtTokenProviderImpl.createToken(email, Set.of(user.getRole()));
 
       final Map<Object, Object> response = Map.of("email", email, "token", token);
 

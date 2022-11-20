@@ -18,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +31,7 @@ import org.hibernate.annotations.Formula;
 @ToString
 @Table(name = "users")
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends Domain {
 
@@ -50,7 +52,7 @@ public class User extends Domain {
   @NotEmpty(message = "Patronymic should not be empty")
   String patronymic;
 
-  @Formula(" ( SELECT ua.authorities FROM users JOIN public.authorities on users.id = authorities.user_id JOIN user_authorities ua on authorities.authority_id = ua.id WHERE users.id = authorities.user_id ) ")
+  @Formula(" ( SELECT ua.authorities FROM users JOIN public.authorities on users.id = authorities.user_id JOIN user_authorities ua on authorities.authority_id = ua.id WHERE users.id = id ) ")
   @Enumerated(EnumType.STRING)
   Role role;
 
