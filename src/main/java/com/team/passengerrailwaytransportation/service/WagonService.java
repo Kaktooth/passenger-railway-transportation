@@ -9,27 +9,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class WagonService {
+public class WagonService extends AbstractService<Wagon, WagonRepository> {
 
-  private final WagonRepository wagonRepository;
-
-  public WagonService(WagonRepository wagonRepository) {
-    this.wagonRepository = wagonRepository;
+  public WagonService(
+      WagonRepository repository) {
+    super(repository);
   }
 
   public Wagon getWagonById(UUID id) {
-    return wagonRepository.findById(id).get();
+    return repository.findById(id).get();
   }
 
   public List<Wagon> getWagonsByType(UUID typeId) {
-    return wagonRepository.findAllByTypeId(typeId);
+    return repository.findAllByTypeId(typeId);
   }
 
   public List<Wagon> getWagonsByTrain(UUID trainId) {
-    return wagonRepository.findAllByTrainId(trainId);
+    return repository.findAllByTrainId(trainId);
   }
 
   public List<Wagon> getWagonsByWagonTypeAndTrain(UUID typeId, UUID trainId) {
-    return wagonRepository.findAllByTypeIdAndTrainId(typeId, trainId);
+    return repository.findAllByTypeIdAndTrainId(typeId, trainId);
   }
 }
