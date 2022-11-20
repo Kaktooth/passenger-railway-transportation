@@ -12,7 +12,7 @@ public interface StationRepository extends CommonRepository<Station> {
 
   Station findStationByName(String stationName);
 
-  @Query("SELECT location FROM stations")
+  @Query(value = "SELECT location FROM stations", nativeQuery = true)
   List<String> findAllStationLocations();
 }
 
