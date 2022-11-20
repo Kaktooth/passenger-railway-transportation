@@ -28,7 +28,7 @@ function Header({ routes }) {
 							return renderButton(route, route, i);
 						})}
 					</div>
-					<div>{renderButton(<GrLogout color="#0026ff" size={28} />, "/logout", "logout")}</div>
+					<div>{renderButton(<GrLogout color="#0026ff" size={28} />, "/login", "login")}</div>
 				</Toolbar>
 			</AppBar>
 		</Box>
