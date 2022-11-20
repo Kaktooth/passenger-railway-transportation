@@ -3,12 +3,17 @@ package com.team.passengerrailwaytransportation.controller;
 import com.team.passengerrailwaytransportation.config.security.jwt.JwtTokenProviderImpl;
 import com.team.passengerrailwaytransportation.entities.AuthenticationUserDto;
 import com.team.passengerrailwaytransportation.entities.Role;
+import com.team.passengerrailwaytransportation.entities.Ticket;
 import com.team.passengerrailwaytransportation.entities.User;
+import com.team.passengerrailwaytransportation.service.LiqPayApiService;
+import com.team.passengerrailwaytransportation.service.OperatorService;
 import com.team.passengerrailwaytransportation.service.UserService;
 import com.team.passengerrailwaytransportation.utility.AppConstraints;
 import java.util.Map;
 import java.util.Set;
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +26,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +50,8 @@ public class UserController {
 
   @NonNull
   private final PasswordEncoder passwordEncoder;
+
+  private final LiqPayApiService liqPayApiService;
 
   @PostMapping("/register")
   public ResponseEntity<String> register(@Valid @RequestBody @NonNull User user) {

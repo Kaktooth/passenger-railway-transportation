@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.team'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '16'
 
 configurations {
     compileOnly {
@@ -16,18 +16,21 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-security:2.7.5'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.passay:passay:1.6.2'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.3'
     implementation 'io.swagger.core.v3:swagger-models:2.2.3'
+    implementation 'com.github.liqpay:sdk-java:master-SNAPSHOT'
 
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
