@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Header from "./components/Header/Header";
+import Notify from "./components/Notify/Notify";
 
 import Authorization from "./pages/Authorization/Authorization";
 import Empty from "./pages/Empty/Empty";
@@ -27,6 +28,7 @@ function App() {
 			<Route path="/transportation" element={<Transportation />} />
 			<Route path="/login" element={<Authorization />} />
 			<Route path="/profile" element={<Profile />} />
+			<Route path="/notify" element={<Notify />} />
 		</Routes>
 	);
 
