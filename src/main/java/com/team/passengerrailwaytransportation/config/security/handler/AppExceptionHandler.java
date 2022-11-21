@@ -77,11 +77,11 @@ public class AppExceptionHandler {
     final var responseStatus =
         exception.getClass().getAnnotation(ResponseStatus.class);
     final var status =
-        responseStatus != null ? responseStatus.value() : HttpStatus.BAD_REQUEST;
+        responseStatus != null ? responseStatus.value() : HttpStatus.BAD_GATEWAY;
     final var message = ErrorMessage.builder()
         .status(status.value())
         .date(new Date())
-        .description(internalServerErrorMessage)
+        .description(badMailSenderMessage)
         .url(request.getRequestURL().toString())
         .build();
     return new ResponseEntity<>(message, status);
