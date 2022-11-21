@@ -29,7 +29,7 @@ public class TicketServiceTest {
 
     private Ticket createTicket(Transportation transportation) {
         Ticket ticket = new Ticket(new Wagon(UUID.randomUUID(), UUID.randomUUID()),
-                UUID.randomUUID(), 1, transportation, new BigInteger("1"));
+                UUID.randomUUID(), 1, transportation, 199);
         return ticketService.save(ticket);
     }
 

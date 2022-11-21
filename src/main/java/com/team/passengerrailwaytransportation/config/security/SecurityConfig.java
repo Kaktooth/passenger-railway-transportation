@@ -59,11 +59,11 @@ public class SecurityConfig {
         .authorizeRequests()
         .mvcMatchers(Web.apiPath, Web.swaggerPath, Web.loginPath)
         .permitAll()
-        .anyRequest().authenticated()
         .and()
         .authorizeRequests()
         .mvcMatchers(Web.stationPath, Web.ticketPath, Web.transportationsPath,
             Web.usersPath, Web.wagonPath, Web.wagonTypesPath).hasRole("ADMIN")
+        .anyRequest().authenticated()
         .and()
         .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
         .apply(new JwtConfigurer(jwtTokenProviderImpl))
