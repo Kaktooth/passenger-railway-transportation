@@ -16,10 +16,6 @@ public class WagonService extends AbstractService<Wagon, WagonRepository> {
     super(repository);
   }
 
-  public Wagon getWagonById(UUID id) {
-    return repository.findById(id).get();
-  }
-
   public List<Wagon> getWagonsByType(UUID typeId) {
     return repository.findAllByTypeId(typeId);
   }

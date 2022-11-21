@@ -31,5 +31,5 @@ public class Ticket extends Domain {
   @OneToOne
   Transportation transportation;
 
-  BigInteger price;
+  Integer price;
 }

@@ -21,7 +21,7 @@ public class WagonTypeServiceTest {
     }
 
     private WagonType createWagonTypes() {
-        WagonType wagonType = new WagonType("String", 1);
+        WagonType wagonType = new WagonType("String", 1, 200);
         return wagonTypeService.save(wagonType);
     }
 }

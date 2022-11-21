@@ -19,4 +19,6 @@ public class WagonType extends Domain {
   String type;
 
   Integer seatNumber;
+
+  Integer seatPrice;
 }

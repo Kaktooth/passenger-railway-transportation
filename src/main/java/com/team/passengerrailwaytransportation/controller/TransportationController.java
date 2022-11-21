@@ -87,6 +87,16 @@ public class TransportationController {
     return wagonService.getWagonsByTrain(transportation.getTrain().getId());
   }
 
+  @GetMapping("/wagon/{wagonType}/price")
+  Integer getWagonPrice(@PathVariable String wagonType) {
+    return wagonTypeService.findWagonTypeByType(wagonType).getSeatPrice();
+  }
+
+  @GetMapping("/wagon/{wagonType}/seatNumber")
+  Integer getWagonSeats(@PathVariable String wagonType) {
+    return wagonTypeService.findWagonTypeByType(wagonType).getSeatNumber();
+  }
+
   @GetMapping("/routes/{id}/train/wagons-types/{wagonTypeId}")
   public List<Wagon> getWagonsType(@PathVariable UUID id,
       @PathVariable UUID wagonTypeId) {
@@ -94,6 +104,4 @@ public class TransportationController {
     return wagonService.getWagonsByWagonTypeAndTrain(wagonTypeId,
         transportation.getTrain().getId());
   }
-
-
 }

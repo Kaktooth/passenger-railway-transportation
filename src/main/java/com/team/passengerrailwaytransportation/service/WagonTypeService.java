@@ -23,4 +23,8 @@ public class WagonTypeService extends AbstractService<WagonType, WagonTypeReposi
   public WagonType getWagonTypeById(UUID id) {
     return repository.findById(id).get();
   }
+
+  public WagonType findWagonTypeByType(String wagonType) {
+    return repository.findWagonTypeByType(wagonType);
+  }
 }
