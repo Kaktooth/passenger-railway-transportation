@@ -1,7 +1,12 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
-  padding: 0 50px;
+  padding: 0 0 0 50px !important;
+}
+
+.welcomeText {
+  color: #000;
+  margin-right: 5px;
 }
 
 .link {

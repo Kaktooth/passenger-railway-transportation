@@ -14,14 +14,22 @@ function Authorization() {
 
 	const [errors, setErrors] = useState({ email: "", password: "", description: "" });
 
-	useEffect(() => localStorage.setItem("authorized", "0"), []);
+	useEffect(() => {
+		localStorage.setItem("authorized", "0");
+		localStorage.removeItem("email");
+	}, []);
 	useEffect(() => setErrors({ email: "", password: "", description: "" }), [email, password]);
 
 	const onSignIn = async () => {
 		await loginUser({ email, password }).then(res => {
-			const { response } = res;
+			const { response, token, email } = res;
 
-			if (!response) {
+			if (token && email) {
+				navigate("/stations");
+				localStorage.setItem("email", email);
+				localStorage.setItem("authorized", "1");
+				setErrors({ email: "", password: "", description: "" });
+			} else if (!response) {
 				setErrors({ ...errors, description: "Service Unavailable" });
 			} else if (response.status === 400) {
 				const { email, password } = response.data.details;
@@ -29,10 +37,6 @@ function Authorization() {
 			} else if (response.status === 401 || response.status === 500) {
 				const { description } = response.data;
 				setErrors({ ...errors, description: description || "" });
-			} else if (response.status === 200) {
-				navigate("/stations");
-				localStorage.setItem("authorized", "1");
-				setErrors({ email: "", password: "", description: "" });
 			}
 		});
 	};

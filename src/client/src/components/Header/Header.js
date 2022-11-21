@@ -28,7 +28,10 @@ function Header({ routes }) {
 							return renderButton(route, route, i);
 						})}
 					</div>
-					<div>{renderButton(<GrLogout color="#0026ff" size={28} />, "/login", "login")}</div>
+					<div>
+						<span className={styles.welcomeText}>Hi, {localStorage.getItem("email")}</span>
+						{renderButton(<GrLogout color="#0026ff" size={28} />, "/login", "login")}
+					</div>
 				</Toolbar>
 			</AppBar>
 		</Box>

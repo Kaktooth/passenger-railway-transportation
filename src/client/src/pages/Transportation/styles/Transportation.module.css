@@ -2,6 +2,11 @@
   padding: 45px 100px;
 }
 
+.dropdown {
+  width: 300px !important;
+  margin-bottom: 20px;
+}
+
 .table_header tr th {
   font-weight: bold;
 }/*# sourceMappingURL=Transportation.module.css.map */

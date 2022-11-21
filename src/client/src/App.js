@@ -13,7 +13,7 @@ function App() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (localStorage.getItem("authorized") === "0") {
+		if (localStorage.getItem("authorized") === "0" || !localStorage.getItem("email")) {
 			navigate("/login");
 			setShowHeader(false);
 		} else setShowHeader(true);

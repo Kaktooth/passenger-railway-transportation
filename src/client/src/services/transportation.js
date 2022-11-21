@@ -8,6 +8,12 @@ export const getTransportationByCityName = async cityName => {
 	return res.data;
 };
 
+// Get all cities
+export const getAllCities = async () => {
+	const res = await axios.get(`${baseURL}/transportation/stations/locations`);
+	return res.data;
+};
+
 // Get transportation train seats number
 export const getTransportationTrainSeatsNumber = async trainId => {
 	const res = await axios.get(`${baseURL}/transportation/routes/${trainId}/train/getSeatsNumber`);
