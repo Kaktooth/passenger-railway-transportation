@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 
 import Authorization from "./pages/Authorization/Authorization";
 import Empty from "./pages/Empty/Empty";
+import Profile from "./pages/Profile/Profile";
 import Stations from "./pages/Stations/Stations";
 import Transportation from "./pages/Transportation/Transportation";
 
@@ -25,6 +26,7 @@ function App() {
 			<Route path="/stations" element={<Stations />} />
 			<Route path="/transportation" element={<Transportation />} />
 			<Route path="/login" element={<Authorization />} />
+			<Route path="/profile" element={<Profile />} />
 		</Routes>
 	);
 
@@ -34,7 +36,7 @@ function App() {
 		const walkTree = element => {
 			const { children, path } = element.props;
 			if (children && children.length > 0) children.forEach(walkTree);
-			else if (path && typeof path === "string" && path !== "*" && path !== "/login") paths.push(element.props.path);
+			else if (path && typeof path === "string" && path !== "*" && path !== "/login" && path !== "/profile") paths.push(element.props.path);
 		};
 
 		walkTree(routes);

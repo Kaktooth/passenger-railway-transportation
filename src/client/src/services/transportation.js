@@ -25,3 +25,8 @@ export const getAvailableTrainSeatsNumber = async trainId => {
 	const res = await axios.get(`${baseURL}/transportation/routes/${trainId}/train/getAvailableSeats`);
 	return res.data;
 };
+
+export const getWagonsType = async (trainId, wagonTypeId) => {
+	const res = await axios.get(`${baseURL}transportation/routes/${trainId}/train/wagons-types/${wagonTypeId}`);
+	return res.data;
+};

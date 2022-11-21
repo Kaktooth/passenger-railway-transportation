@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 45px 100px;
+}
+.wrapper_typography {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin: 40px;
+  margin-left: 0;
+}
+.profile span {
+  margin-left: 20px;
+  font-size: 32px;
+}/*# sourceMappingURL=Profile.module.css.map */

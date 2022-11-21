@@ -6,10 +6,9 @@
 
 .welcomeText {
   height: 70px;
-  padding: 0 25px;
-  margin-right: 5px;
-  text-transform: lowercase;
-  font-size: 18px;
+  padding: 0 25px !important;
+  text-transform: lowercase !important;
+  font-size: 18px !important;
 }
 
 .link {

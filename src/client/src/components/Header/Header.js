@@ -42,7 +42,11 @@ function Header({ routes }) {
 							<span>Hi, {localStorage.getItem("email")}</span>
 						</Button>
 						<Menu anchorEl={element} open={isOpenMenu} onClose={handleClose}>
-							<MenuItem onClick={handleClose}>My account</MenuItem>
+							<NavLink className={styles.activeLink} to={"/profile"}>
+								<MenuItem sx={{ color: "#000" }} onClick={handleClose}>
+									My account
+								</MenuItem>
+							</NavLink>
 							<NavLink className={styles.activeLink} to={"/login"}>
 								<MenuItem sx={{ color: "#000" }} onClick={handleClose}>
 									Logout
