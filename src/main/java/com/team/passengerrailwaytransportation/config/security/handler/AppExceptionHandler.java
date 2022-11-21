@@ -41,6 +41,10 @@ public class AppExceptionHandler {
   @Value("${bad-request.mail.error.message}")
   private String badMailSenderMessage;
 
+  @NonNull
+  @Value("${bad-request.error.message}")
+  private String badRequestMessage;
+
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ErrorMessage> handleAuthenticationException(
       @NonNull final HttpServletRequest request,
@@ -68,6 +72,20 @@ public class AppExceptionHandler {
         .build();
     return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
   }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ErrorMessage> handleResourceNotFoundException(
+      @NonNull final HttpServletRequest request,
+      @NonNull final ConstraintViolationException exception) {
+
+      final var message = ErrorMessage.builder()
+          .status(HttpStatus.BAD_REQUEST.value())
+          .date(new Date())
+          .description(badRequestMessage)
+          .url(request.getRequestURL().toString())
+          .build();
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
 
   @ExceptionHandler(MailSendFailedException.class)
   public ResponseEntity<ErrorMessage> handleAllExceptions(
