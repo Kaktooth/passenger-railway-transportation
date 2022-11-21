@@ -57,8 +57,12 @@ public class SecurityConfig {
         .httpBasic().disable()
         .csrf().disable()
         .authorizeRequests()
-        .mvcMatchers("/api/**", "/swagger-ui/**", Web.loginPath)
+        .mvcMatchers(Web.apiPath, Web.swaggerPath, Web.loginPath)
         .permitAll()
+        .and()
+        .authorizeRequests()
+        .mvcMatchers(Web.stationPath, Web.ticketPath, Web.transportationsPath,
+            Web.usersPath, Web.wagonPath, Web.wagonTypesPath).hasRole("ADMIN")
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)

@@ -3,11 +3,11 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: ${REMOTE_DATABASE_URL:jdbc:postgresql://localhost:5432/railway}
     username: ${REMOTE_DATABASE_USERNAME:postgres}
-    password: ${REMOTE_DATABASE_PASSWORD:vetal54}
+    password: ${REMOTE_DATABASE_PASSWORD:admin}
 
   flyway:
     baseline-on-migrate: true
-
+    clean-on-validation-error: true
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher

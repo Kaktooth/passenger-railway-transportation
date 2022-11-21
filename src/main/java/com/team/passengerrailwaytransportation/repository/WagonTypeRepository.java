@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WagonTypeRepository extends CommonRepository<WagonType> {
 
+  WagonType findWagonTypeByType(String wagonType);
 }

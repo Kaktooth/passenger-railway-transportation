@@ -8,21 +8,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class WagonTypeServiceTest {
+public class WagonTypeServiceTest {
+    @Autowired
+    private WagonTypeService wagonTypeService;
 
-  @Autowired
-  private WagonTypeService wagonTypeService;
+    @Test
+    public void shouldReturnCorrectAllWagonTypes() {
+        WagonType wagonType = createWagonTypes();
 
-  @Test
-  void shouldReturnCorrectAllWagonTypes() {
-    WagonType wagonType = createWagonTypes();
+        List<WagonType> list = wagonTypeService.getAllWagonTypes();
+        Assertions.assertTrue(list.contains(wagonType));
+    }
 
-    List<WagonType> list = wagonTypeService.getAllWagonTypes();
-    Assertions.assertTrue(list.contains(wagonType));
-  }
-
-  private WagonType createWagonTypes() {
-    WagonType wagonType = new WagonType("String", 1);
-    return wagonTypeService.save(wagonType);
-  }
+    private WagonType createWagonTypes() {
+        WagonType wagonType = new WagonType("String", 1, 200);
+        return wagonTypeService.save(wagonType);
+    }
 }
