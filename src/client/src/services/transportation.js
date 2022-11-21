@@ -14,8 +14,14 @@ export const getAllCities = async () => {
 	return res.data;
 };
 
-// Get transportation train seats number
-export const getTransportationTrainSeatsNumber = async trainId => {
+// Get all train seats number
+export const getAllTrainSeatsNumber = async trainId => {
 	const res = await axios.get(`${baseURL}/transportation/routes/${trainId}/train/getSeatsNumber`);
+	return res.data;
+};
+
+// Get available train seats number
+export const getAvailableTrainSeatsNumber = async trainId => {
+	const res = await axios.get(`${baseURL}/transportation/routes/${trainId}/train/getAvailableSeats`);
 	return res.data;
 };

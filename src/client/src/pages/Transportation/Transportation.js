@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { HiOutlineFaceFrown } from "react-icons/hi2";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-import { getAllCities, getTransportationByCityName, getTransportationTrainSeatsNumber } from "../../services/transportation";
+import { getAllCities, getTransportationByCityName, getAllTrainSeatsNumber, getAvailableTrainSeatsNumber } from "../../services/transportation";
 
 import styles from "./styles/Transportation.module.css";
 
@@ -11,7 +11,8 @@ function Transportation() {
 	const [cities, setCities] = useState([]);
 
 	const [transportation, setTransportation] = useState([]);
-	const [trainSeatsNumbers, setTrainSeatsNumbers] = useState([]);
+	const [allTrainSeatsNumbers, setAllTrainSeatsNumbers] = useState([]);
+	const [availableTrainSeatsNumbers, setAvailableTrainSeatsNumbers] = useState([]);
 
 	useEffect(() => {
 		async function getCities() {
@@ -29,22 +30,20 @@ function Transportation() {
 	useEffect(() => {
 		async function getTransportation() {
 			try {
-				const seatsNumbers = [];
-
 				if (city) {
 					const transportation = await getTransportationByCityName(city);
 
 					if (transportation) {
+						setTransportation(transportation);
 						transportation.forEach(async i => {
-							const res = await getTransportationTrainSeatsNumber(i.id);
-							seatsNumbers.push(res);
+							const allSeatsNumber = await getAllTrainSeatsNumber(i.id);
+							const availableSeatsNumber = await getAvailableTrainSeatsNumber(i.id);
+
+							setAllTrainSeatsNumbers([...allTrainSeatsNumbers, allSeatsNumber]);
+							setAvailableTrainSeatsNumbers([...availableTrainSeatsNumbers, availableSeatsNumber]);
 						});
 					}
-
-					setTransportation(transportation);
 				}
-
-				setTrainSeatsNumbers(seatsNumbers);
 			} catch (err) {
 				console.log(err);
 			}
@@ -94,7 +93,9 @@ function Transportation() {
 
 						return (
 							<TableRow key={train.id + arrivalTime}>
-								{[time, fStation, sStation, trainName, trainSeatsNumbers[index] || 0].map(renderTableCell)}
+								{[time, fStation, sStation, trainName, `${availableTrainSeatsNumbers[index] || 0}/${allTrainSeatsNumbers[index] || 0}`].map(
+									renderTableCell
+								)}
 							</TableRow>
 						);
 					})
