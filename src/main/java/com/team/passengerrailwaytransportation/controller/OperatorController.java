@@ -1,5 +1,6 @@
 package com.team.passengerrailwaytransportation.controller;
 
+import com.team.passengerrailwaytransportation.exeption.MailSendFailedException;
 import com.team.passengerrailwaytransportation.service.OperatorService;
 import javax.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,12 @@ public class OperatorController {
   @PostMapping("/sendMessage")
   @PreAuthorize("hasRole('OPERATOR')")
   public ResponseEntity<String> sendMessage(@RequestParam("message") String message,
-      @RequestParam("subject") String subject, @RequestParam("to") String to)
-      throws MessagingException {
-    operatorService.sendMessage(message, subject, to);
+      @RequestParam("subject") String subject, @RequestParam("to") String to) {
+    try {
+      operatorService.sendMessage(message, subject, to);
+    } catch (Exception ex) {
+      throw new MailSendFailedException(ex.getMessage());
+    }
     return ResponseEntity.ok("Message sent.");
   }
 }
