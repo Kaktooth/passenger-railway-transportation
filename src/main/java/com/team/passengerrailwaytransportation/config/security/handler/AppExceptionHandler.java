@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,12 +31,12 @@ public class AppExceptionHandler {
   private String unauthorizedErrorMessage;
 
   @NonNull
-  @Value("${bad.request.error.message}")
-  private String badRequestErrorMessage;
-
-  @NonNull
   @Value("${access.denied.error.message}")
   private String accessDeniedErrorMessage;
+
+  @NonNull
+  @Value("${object.not-found.error.message}")
+  private String objectNotFoundMessage;
 
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ErrorMessage> handleAuthenticationException(
@@ -51,20 +52,6 @@ public class AppExceptionHandler {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
   }
 
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<ErrorMessage> handleResourceNotFoundException(
-      @NonNull final HttpServletRequest request,
-      @NonNull final ConstraintViolationException exception) {
-
-    final var message = ErrorMessage.builder()
-        .status(HttpStatus.BAD_REQUEST.value())
-        .date(new Date())
-        .description(badRequestErrorMessage)
-        .url(request.getRequestURL().toString())
-        .build();
-    return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-  }
-
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ErrorMessage> handleAccessDeniedException(
       @NonNull final HttpServletRequest request,
@@ -77,6 +64,20 @@ public class AppExceptionHandler {
         .url(request.getRequestURL().toString())
         .build();
     return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+  }
+
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ErrorMessage> handleNotFoundException(
+      @NonNull final HttpServletRequest request,
+      @NonNull final NotFoundException exception) {
+
+    final var message = ErrorMessage.builder()
+        .status(HttpStatus.NOT_FOUND.value())
+        .date(new Date())
+        .description(objectNotFoundMessage)
+        .url(request.getRequestURL().toString())
+        .build();
+    return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(Exception.class)
