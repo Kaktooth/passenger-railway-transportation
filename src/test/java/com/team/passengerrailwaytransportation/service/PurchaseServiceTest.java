@@ -10,6 +10,7 @@ import java.util.List;
 
 @SpringBootTest
 public class PurchaseServiceTest {
+
     @Autowired
     private PurchaseService purchaseService;
 
