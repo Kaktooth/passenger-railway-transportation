@@ -21,7 +21,9 @@ function Authorization() {
 		await loginUser({ email, password }).then(res => {
 			const { response } = res;
 
-			if (response.status === 400) {
+			if (!response) {
+				setErrors({ ...errors, description: "Service Unavailable" });
+			} else if (response.status === 400) {
 				const { email, password } = response.data.details;
 				setErrors({ ...errors, email: email || "", password: password || "" });
 			} else if (response.status === 401 || response.status === 500) {
