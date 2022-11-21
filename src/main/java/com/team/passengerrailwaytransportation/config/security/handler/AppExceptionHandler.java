@@ -1,7 +1,10 @@
 package com.team.passengerrailwaytransportation.config.security.handler;
 
 import com.team.passengerrailwaytransportation.entities.ErrorMessage;
+import com.team.passengerrailwaytransportation.exeption.MailSendFailedException;
 import java.util.Date;
+import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import lombok.NonNull;
@@ -35,8 +38,8 @@ public class AppExceptionHandler {
   private String accessDeniedErrorMessage;
 
   @NonNull
-  @Value("${object.not-found.error.message}")
-  private String objectNotFoundMessage;
+  @Value("${bad-request.mail.error.message}")
+  private String badMailSenderMessage;
 
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ErrorMessage> handleAuthenticationException(
@@ -66,18 +69,22 @@ public class AppExceptionHandler {
     return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
   }
 
-  @ExceptionHandler(NotFoundException.class)
-  public ResponseEntity<ErrorMessage> handleNotFoundException(
-      @NonNull final HttpServletRequest request,
-      @NonNull final NotFoundException exception) {
-
+  @ExceptionHandler(MailSendFailedException.class)
+  public ResponseEntity<ErrorMessage> handleAllExceptions(
+      @NonNull final MailSendFailedException exception,
+      @NonNull final HttpServletRequest request) {
+    log.info("Mail sender error: " + exception.getMessage());
+    final var responseStatus =
+        exception.getClass().getAnnotation(ResponseStatus.class);
+    final var status =
+        responseStatus != null ? responseStatus.value() : HttpStatus.BAD_REQUEST;
     final var message = ErrorMessage.builder()
-        .status(HttpStatus.NOT_FOUND.value())
+        .status(status.value())
         .date(new Date())
-        .description(objectNotFoundMessage)
+        .description(internalServerErrorMessage)
         .url(request.getRequestURL().toString())
         .build();
-    return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(message, status);
   }
 
   @ExceptionHandler(Exception.class)
