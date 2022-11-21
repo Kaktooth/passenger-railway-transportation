@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { SiTrainerroad } from "react-icons/si";
 import { GrLogout } from "react-icons/gr";
-import { AppBar, Box, Toolbar, Button } from "@mui/material";
+import { AppBar, Box, Toolbar, Button, Menu, MenuItem } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 import styles from "./styles/Header.module.css";
 
 function Header({ routes }) {
+	const [isOpenMenu, setIsOpenMenu] = useState(false);
+	const [element, setElement] = useState(null);
+
+	const handleClick = event => {
+		setIsOpenMenu(true);
+		setElement(event.currentTarget);
+	};
+	const handleClose = () => setIsOpenMenu(false);
+
 	const renderButton = (text, link, key) => (
 		<NavLink className={({ isActive }) => (isActive ? styles.activeLink : styles.link)} to={link} key={key}>
 			<Button variant="text" className={styles.button}>
@@ -29,8 +38,17 @@ function Header({ routes }) {
 						})}
 					</div>
 					<div>
-						<span className={styles.welcomeText}>Hi, {localStorage.getItem("email")}</span>
-						{renderButton(<GrLogout color="#0026ff" size={28} />, "/login", "login")}
+						<Button onClick={handleClick} className={styles.welcomeText}>
+							<span>Hi, {localStorage.getItem("email")}</span>
+						</Button>
+						<Menu anchorEl={element} open={isOpenMenu} onClose={handleClose}>
+							<MenuItem onClick={handleClose}>My account</MenuItem>
+							<NavLink className={styles.activeLink} to={"/login"}>
+								<MenuItem sx={{ color: "#000" }} onClick={handleClose}>
+									Logout
+								</MenuItem>
+							</NavLink>
+						</Menu>
 					</div>
 				</Toolbar>
 			</AppBar>
