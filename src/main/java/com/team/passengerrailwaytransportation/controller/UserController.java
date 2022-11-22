@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,5 +108,11 @@ public class UserController {
       log.info("Invalid username or password");
       throw new BadCredentialsException("Invalid username or password");
     }
+  }
+
+  @GetMapping("/email/{email}")
+  public ResponseEntity<Map<Object, Object>> findByEmail(@PathVariable String email) {
+    final Map<Object, Object> response = Map.of("id", userService.getUserByEmail(email).getId());
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
