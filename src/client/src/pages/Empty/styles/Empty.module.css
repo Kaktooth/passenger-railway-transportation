@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 85vh;
+}
+
+.text {
+  text-align: center;
+  font-size: 24px;
+}/*# sourceMappingURL=Empty.module.css.map */
